@@ -1,0 +1,72 @@
+{
+  "Pclass": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 3,
+    "rango": "-1.57 a 0.83",
+    "media": -8.77213254024815e-17,
+    "std": 1.0005616400330457
+  },
+  "Sex": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 2,
+    "rango": "-1.36 a 0.74",
+    "media": -1.1563265621236197e-16,
+    "std": 1.0005616400330457
+  },
+  "Age": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 88,
+    "rango": "-2.22 a 3.89",
+    "media": 2.272779794518839e-16,
+    "std": 1.0005616400330457
+  },
+  "SibSp": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 7,
+    "rango": "-0.47 a 6.78",
+    "media": 4.386066270124075e-17,
+    "std": 1.0005616400330457
+  },
+  "Parch": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 7,
+    "rango": "-0.47 a 6.97",
+    "media": 5.3828995133340925e-17,
+    "std": 1.0005616400330457
+  },
+  "Fare": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 248,
+    "rango": "-0.65 a 9.67",
+    "media": 3.987332972840069e-18,
+    "std": 1.0005616400330457
+  },
+  "Embarked": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 3,
+    "rango": "-1.94 a 0.59",
+    "media": -4.9841662160500856e-17,
+    "std": 1.0005616400330457
+  },
+  "Has_Cabin": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 2,
+    "rango": "-0.54 a 1.84",
+    "media": -7.376565999754126e-17,
+    "std": 1.0005616400330457
+  },
+  "FamilySize": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 9,
+    "rango": "-0.56 a 5.64",
+    "media": -2.392399783704041e-17,
+    "std": 1.0005616400330457
+  },
+  "IsAlone": {
+    "tipo": "num\u00e9rico",
+    "valores_unicos": 2,
+    "rango": "-1.23 a 0.81",
+    "media": -6.37973275654411e-17,
+    "std": 1.000561640033046
+  }
+}

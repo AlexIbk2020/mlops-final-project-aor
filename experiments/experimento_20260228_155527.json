@@ -1,0 +1,13 @@
+{
+    "timestamp": "20260228_155527",
+    "modelo_campeon": "Regresi\u00f3n Log\u00edstica",
+    "metricas": {
+        "accuracy": 0.8156424581005587,
+        "precision": 0.7727272727272727,
+        "recall": 0.7391304347826086,
+        "f1_score": 0.7555555555555555,
+        "roc_auc": 0.8553359683794467,
+        "cv_mean": 0.7921993499458287,
+        "cv_std": 0.020434083564230078
+    },
+    "cumple_objetivos": 

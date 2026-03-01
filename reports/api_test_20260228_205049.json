@@ -1,0 +1,14 @@
+{
+  "fecha": "2026-02-28T20:50:49.176909",
+  "api_url": "http://localhost:8000",
+  "endpoints": [
+    "/",
+    "/health",
+    "/predict",
+    "/info"
+  ],
+  "documentacion": {
+    "swagger": "http://localhost:8000/docs",
+    "redoc": "http://localhost:8000/redoc"
+  }
+}
