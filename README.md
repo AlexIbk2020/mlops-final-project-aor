@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 A) Definición del Problema
+## Definición del Problema
 
 ### 1. Caso de Uso de IA/ML
 **Identificación del problema:** Este proyecto aborda la **predicción de la supervivencia de pasajeros del Titanic**. El problema consiste en determinar, dadas las características de un pasajero (como su edad, género, clase de ticket, etc.), si esta persona sobrevivió o no al trágico hundimiento.
@@ -43,7 +43,9 @@ Para considerar que la solución de Machine Learning es un éxito, el modelo cam
 
 ---
 
-## 📊 A.1) Adquisición de Datos
+
+### DESARROLLO
+## A.1) Adquisición de Datos
 
 ### 1. Identificación y Fuente de los Datos
 El conjunto de datos utilizado es el clásico **"Titanic - Machine Learning from Disaster"** disponible en la plataforma **Kaggle**. Este es un dataset de uso público y educativo, ampliamente utilizado en la comunidad de ciencia de datos para problemas de introducción a la clasificación.
@@ -79,14 +81,147 @@ Un primer vistazo a los datos revela los siguientes puntos importantes que será
 *   **Tipos de Datos:** Existe una mezcla de variables numéricas y categóricas que requerirán diferentes estrategias de preprocesamiento.
 *   **Desbalance de Clases:** Se anticipa que la clase `Survived` podría no estar perfectamente balanceada, lo que justifica el uso de métricas como el F1-Score.
 
+### Para el análisis de datos se creo un notebook 03_feature_analysis.ipynb
+Aquí podrá encontrar las siguientes características:
+## 📓 Análisis del Notebook: `03_feature_analysis.ipynb`
+
+A continuación, se detalla el contenido y los análisis realizados en el notebook de justificación de características:
+
+### **Celda 2 - Cargar Datos Originales**
+- **Carga de datos:** `train.csv` y `test.csv` desde `../data/raw/`
+- **Dimensiones verificadas:** Train (891, 12), Test (418, 11)
+- **Visualización:** Primeras filas de los datasets
+
+### **Celda 3 - Información del Dataset**
+- **Tipos de datos:** Uso de `info()` para identificar tipos
+- **Estadísticas:** `describe()` para análisis descriptivo
+- **Valores nulos:** Identificación inicial de columnas con nulos
+
+### **Celda 4 - Análisis de Valores Nulos**
+- **Conteo por columna:** Identificación precisa de valores nulos
+- **Porcentajes:** Cálculo de porcentajes sobre el total
+- **Visualización:** Mapa de calor (heatmap) de valores nulos
+- **Resultados clave:**
+  - Age: 177 nulos (19.9%)
+  - Cabin: 687 nulos (77%)
+  - Embarked: 2 nulos (0.2%)
+
+### **Celda 5 - Crear Copia para Trabajar**
+- **Copia:** `df = train_raw.copy()`
+- **Justificación:** Preservar datos originales inalterados
+
+### **Celda 6 - Transformación 1: Age (Imputación)**
+- **Análisis:** Distribución original de edad
+- **Comparación:** Media vs Mediana (visual)
+- **Justificación:** Uso de mediana por ser robusta a outliers
+- **Aplicación:** `fillna(age_median)`
+- **Verificación:** 177 valores imputados correctamente
+
+### **Celda 7 - Transformación 2: Embarked (Imputación)**
+- **Análisis:** Distribución de puertos de embarque
+- **Moda identificada:** 'S' (Southampton)
+- **Justificación:** Solo 2 valores nulos (0.2%)
+- **Aplicación:** `fillna(embarked_mode)`
+- **Verificación:** Distribución final consistente
+
+### **Celda 8 - Transformación 3: Fare (Preparación para Test)**
+- **Verificación:** Train sin nulos en Fare
+- **Detección:** 1 valor nulo en test
+- **Cálculo:** Mediana de Fare en train
+- **Justificación:** Imputar valor nulo de test con mediana de train
+
+### **Celda 9 - Transformación 4: Cabin → Has_Cabin**
+- **Análisis:** 77% de valores nulos en Cabin
+- **Justificación:** Imposible imputar, pero presencia de cabina es informativa
+- **Creación:** Variable binaria `Has_Cabin` (1 = tiene cabina, 0 = no tiene)
+- **Conteo resultante:** 23% con cabina, 77% sin cabina
+- **Limpieza:** Eliminación de columna original `Cabin`
+
+### **Celda 10 - Eliminar Columnas No Útiles**
+- **Columnas identificadas:** `Name`, `Ticket`, `PassengerId`
+- **Justificaciones:**
+  - `Name`: Demasiados valores únicos, difícil de codificar
+  - `Ticket`: Formato inconsistente, poco informativo
+  - `PassengerId`: Solo identificador, sin valor predictivo
+- **Eliminación:** Columnas removidas del dataset
+- **Verificación:** Columnas restantes listadas
+
+### **Celda 11 - Feature Engineering: FamilySize**
+- **Creación:** `FamilySize = SibSp + Parch + 1`
+- **Justificación:** Medir el tamaño del grupo familiar
+- **Análisis:** Distribución de tamaños familiares
+- **Visualización:** Tasa de supervivencia por tamaño familiar
+
+### **Celda 12 - Feature Engineering: IsAlone**
+- **Creación:** `IsAlone = (FamilySize == 1).astype(int)`
+- **Justificación:** Identificar pasajeros que viajan solos
+- **Conteo:** 60% viajan solos, 40% acompañados
+- **Análisis de supervivencia:** Solos (30%) vs Acompañados (50%)
+
+### **Celda 13 - Cargar Datos Finales (Procesados)**
+- **Carga:** `X_train.csv` y `y_train.csv` desde `../data/training/`
+- **Dimensiones finales:** X_train (891, 10), y_train (891,)
+- **Listado:** 10 características finales del modelo
+
+### **Celda 14 - Estadísticas de Características Finales**
+- **Estadísticas descriptivas:** `describe()` aplicado
+- **Tipos de datos:** Verificación por columna
+- **Valores únicos:** Conteo por característica
+
+### **Celda 15 - Visualización de Distribuciones**
+- **Histogramas:** Grid 3x4 con distribuciones de cada característica
+- **Análisis visual:** Identificación de patrones y posibles outliers
+- **Patrones detectados:** Distribuciones esperadas según la naturaleza de cada variable
+
+### **Celda 16 - Matriz de Correlación**
+- **Cálculo:** Correlaciones entre todas las características
+- **Visualización:** Heatmap de correlaciones
+- **Identificación:** Relaciones fuertes entre variables
+- **Análisis:** Interpretación de correlaciones significativas
+
+### **Celda 17 - Importancia de Características**
+- **Modelo temporal:** Random Forest para calcular importancia
+- **Feature importances:** Ranking de características
+- **Top 5 más importantes:**
+  1. **Sex** (género) - Impacto más significativo
+  2. **Pclass** (clase) - Factor socioeconómico determinante
+  3. **Age** (edad) - Influencia en supervivencia
+  4. **Fare** (tarifa) - Relacionado con clase
+  5. **FamilySize** (tamaño familiar) - Factor adicional
+- **Visualización:** Gráfico de barras de importancias
+
+### **Celda 18 - Conclusiones Finales**
+
+#### **Resumen de Transformaciones Aplicadas:**
+| Característica | Transformación | Justificación |
+|----------------|----------------|---------------|
+| Age | Imputación con mediana | 177 nulos, robustez ante outliers |
+| Embarked | Imputación con moda | Solo 2 nulos, puerto más común 'S' |
+| Cabin | Convertida a Has_Cabin | 77% nulos, pero tener cabina es informativo |
+| FamilySize | Creada (SibSp + Parch + 1) | Medir tamaño familiar |
+| IsAlone | Derivada de FamilySize | Identificar pasajeros solos |
+| Name, Ticket, PassengerId | Eliminadas | Sin valor predictivo |
+
+#### **Características Finales (10 variables):**
+`Pclass`, `Sex`, `Age`, `SibSp`, `Parch`, `Fare`, `Embarked`, `Has_Cabin`, `FamilySize`, `IsAlone`
+
+#### **Hallazgos Clave:**
+- **Sex, Pclass y Age** son las 3 características más importantes
+- Las transformaciones aplicadas mejoran el poder predictivo
+- Tener cabina (Has_Cabin=1) correlaciona con mayor supervivencia
+- Viajar solo (IsAlone=1) disminuye probabilidad de supervivencia
+
+#### **Conclusión Final:**
+Todas las transformaciones realizadas están debidamente justificadas mediante análisis visual y estadístico, preparando óptimamente los datos para la fase de modelado.
+
 ---
 
 ## 📁 B) Preparación del Proyecto
 
-*   ✅ Repositorio GitHub: [uni_mds_ciclo3_ml_project](https://github.com/tu-usuario/uni_mds_ciclo3_ml_project)
-*   ✅ Rama principal: `main`
-*   ✅ Rama de desarrollo: `develop`
-*   ✅ Estructura de proyecto organizada:
+*    Repositorio GitHub: [uni_mds_ciclo3_ml_project](https://github.com/tu-usuario/uni_mds_ciclo3_ml_project)
+*    Rama principal: `main`
+*    Rama de desarrollo: `develop`
+*    Estructura de proyecto organizada:
 
 mlops-final-project-aor/
 ├── data/
@@ -123,7 +258,7 @@ mlops-final-project-aor/
 
 ---
 
-## 🤖 C) Experimentación de ML
+## C) Experimentación de ML
 
 ### Transformaciones Aplicadas
 - Imputación de valores nulos (Age con mediana, Embarked con moda).
@@ -143,20 +278,20 @@ mlops-final-project-aor/
 
 ### Modelo Campeón
 **Regresión Logística** - Cumple métricas de éxito:
-- ✅ Accuracy: **81.56%** (≥80%)
-- ✅ F1-Score: **75.56%** (≥0.75)
-- ✅ ROC-AUC: **85.53%**
+-  Accuracy: **81.56%** (≥80%)
+-  F1-Score: **75.56%** (≥0.75)
+-  ROC-AUC: **85.53%**
 
-📊 **Resultados completos en:** `notebooks/02_experimentacion.ipynb`
+ **Resultados completos en:** `notebooks/02_experimentacion.ipynb`
 
 ---
 
-## 🔧 D) Actividades de Desarrollo de ML
+##  D) Actividades de Desarrollo de ML
 
 ### Preparación de Datos
-- ✅ Datos crudos en `data/raw/`
-- ✅ Script modular: `src/data_preparation.py`
-- ✅ Dataset final en `data/training/`
+-  Datos crudos en `data/raw/`
+-  Script modular: `src/data_preparation.py`
+-  Dataset final en `data/training/`
 
 ### Descripción de Características Finales
 | Característica | Tipo | Descripción |
@@ -182,19 +317,19 @@ mlops-final-project-aor/
 | IsAlone | FamilySize == 1 | Identificar pasajeros solos |
 
 ### Entrenamiento
-- ✅ Script: `src/train.py`
-- ✅ Validación cruzada (5 folds)
-- ✅ Modelo serializado: `models/logistic_regression_*.pkl`
-- ✅ Métricas guardadas: `experiments/metrics_*.json`
+-  Script: `src/train.py`
+-  Validación cruzada (5 folds)
+-  Modelo serializado: `models/logistic_regression_*.pkl`
+-  Métricas guardadas: `experiments/metrics_*.json`
 
 ---
 
 ## 🌐 E) Implementación y Servicio del Modelo
 
 ### API REST con FastAPI
-- ✅ Archivo: `src/serving.py`
-- ✅ Esquemas: `src/schema.py`
-- ✅ Documentación interactiva: Swagger UI en `/docs`
+-  Archivo: `src/serving.py`
+-  Esquemas: `src/schema.py`
+-  Documentación interactiva: Swagger UI en `/docs`
 
 ### Endpoints Disponibles
 | Endpoint | Método | Descripción | Ejemplo Respuesta |
@@ -216,7 +351,8 @@ mlops-final-project-aor/
   "Embarked": "S"
 }
 
-### Formato de Entrada
+### Formato de salida
+```json
 {
   "prediction": 0,
   "survival_probability": 0.1337,
@@ -226,3 +362,13 @@ mlops-final-project-aor/
     "survive": 0.1337
   }
 }
+
+###  Ejemplo de uso
+import requests
+
+response = requests.post(
+    "http://localhost:8000/predict",
+    json={"Pclass": 3, "Sex": "male", "Age": 25, 
+          "SibSp": 0, "Parch": 0, "Fare": 7.25, "Embarked": "S"}
+)
+print(response.json())
